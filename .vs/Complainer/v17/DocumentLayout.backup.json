@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "H:\\0Project\\Complainer\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{EFBF39AB-D343-485B-BB1E-CE536C768B2A}|Complainer\\Complainer.csproj|h:\\0project\\complainer\\complainer\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EFBF39AB-D343-485B-BB1E-CE536C768B2A}|Complainer\\Complainer.csproj|solutionrelative:complainer\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EFBF39AB-D343-485B-BB1E-CE536C768B2A}|Complainer\\Complainer.csproj|h:\\0project\\complainer\\complainer\\complainer.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{EFBF39AB-D343-485B-BB1E-CE536C768B2A}|Complainer\\Complainer.csproj|solutionrelative:complainer\\complainer.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EFBF39AB-D343-485B-BB1E-CE536C768B2A}|Complainer\\Complainer.csproj|H:\\0Project\\Complainer\\complainer\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{EFBF39AB-D343-485B-BB1E-CE536C768B2A}|Complainer\\Complainer.csproj|solutionrelative:complainer\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Complainer",
+              "DocumentMoniker": "H:\\0Project\\Complainer\\Complainer\\Complainer.csproj",
+              "RelativeDocumentMoniker": "Complainer\\Complainer.csproj",
+              "ToolTip": "H:\\0Project\\Complainer\\Complainer\\Complainer.csproj",
+              "RelativeToolTip": "Complainer\\Complainer.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-11-02T03:43:22.011Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "H:\\0Project\\Complainer\\Complainer\\Program.cs",
+              "RelativeDocumentMoniker": "Complainer\\Program.cs",
+              "ToolTip": "H:\\0Project\\Complainer\\Complainer\\Program.cs",
+              "RelativeToolTip": "Complainer\\Program.cs",
+              "ViewState": "AgIAAH8AAACAFP7HY9suwIMAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-02T02:47:25.158Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Form1.cs [Design]",
+              "DocumentMoniker": "H:\\0Project\\Complainer\\Complainer\\Form1.cs",
+              "RelativeDocumentMoniker": "Complainer\\Form1.cs",
+              "ToolTip": "H:\\0Project\\Complainer\\Complainer\\Form1.cs [Design]",
+              "RelativeToolTip": "Complainer\\Form1.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-02T02:46:57.484Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "zKikeS+Tgeo=",
+  "success": true,
+  "projectFilePath": "H:\\0Project\\Complainer\\Complainer\\Complainer.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\a1807\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.17763.57\\microsoft.windows.sdk.net.ref.10.0.17763.57.nupkg.sha512"
+  ],
+  "logs": []
+}

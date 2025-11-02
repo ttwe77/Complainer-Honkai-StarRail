@@ -1,0 +1,17 @@
+H:\0Project\Complainer\Complainer\bin\Release\net8.0-windows10.0.17763.0\win-x86\Complainer.exe
+H:\0Project\Complainer\Complainer\bin\Release\net8.0-windows10.0.17763.0\win-x86\Complainer.deps.json
+H:\0Project\Complainer\Complainer\bin\Release\net8.0-windows10.0.17763.0\win-x86\Complainer.runtimeconfig.json
+H:\0Project\Complainer\Complainer\bin\Release\net8.0-windows10.0.17763.0\win-x86\Complainer.dll
+H:\0Project\Complainer\Complainer\bin\Release\net8.0-windows10.0.17763.0\win-x86\Complainer.pdb
+H:\0Project\Complainer\Complainer\bin\Release\net8.0-windows10.0.17763.0\win-x86\Microsoft.Windows.SDK.NET.dll
+H:\0Project\Complainer\Complainer\bin\Release\net8.0-windows10.0.17763.0\win-x86\WinRT.Runtime.dll
+H:\0Project\Complainer\Complainer\obj\Release\net8.0-windows10.0.17763.0\win-x86\Complainer.GeneratedMSBuildEditorConfig.editorconfig
+H:\0Project\Complainer\Complainer\obj\Release\net8.0-windows10.0.17763.0\win-x86\Complainer.AssemblyInfoInputs.cache
+H:\0Project\Complainer\Complainer\obj\Release\net8.0-windows10.0.17763.0\win-x86\Complainer.AssemblyInfo.cs
+H:\0Project\Complainer\Complainer\obj\Release\net8.0-windows10.0.17763.0\win-x86\Complainer.csproj.CoreCompileInputs.cache
+H:\0Project\Complainer\Complainer\obj\Release\net8.0-windows10.0.17763.0\win-x86\Complainer.csproj.Up2Date
+H:\0Project\Complainer\Complainer\obj\Release\net8.0-windows10.0.17763.0\win-x86\Complainer.dll
+H:\0Project\Complainer\Complainer\obj\Release\net8.0-windows10.0.17763.0\win-x86\refint\Complainer.dll
+H:\0Project\Complainer\Complainer\obj\Release\net8.0-windows10.0.17763.0\win-x86\Complainer.pdb
+H:\0Project\Complainer\Complainer\obj\Release\net8.0-windows10.0.17763.0\win-x86\Complainer.genruntimeconfig.cache
+H:\0Project\Complainer\Complainer\obj\Release\net8.0-windows10.0.17763.0\win-x86\ref\Complainer.dll

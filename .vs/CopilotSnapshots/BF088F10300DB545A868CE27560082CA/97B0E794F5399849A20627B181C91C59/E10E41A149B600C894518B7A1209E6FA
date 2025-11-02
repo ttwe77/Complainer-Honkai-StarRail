@@ -1,0 +1,300 @@
+﻿// Program.cs
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Text.Json;
+using System.Timers;
+using System.Windows.Forms;
+
+namespace TrayNotifier
+{
+    static class Program
+    {
+        [STAThread]
+        static void Main()
+        {
+            ApplicationConfiguration.Initialize();
+            Application.Run(new TrayAppContext());
+        }
+    }
+
+    class TrayAppContext : ApplicationContext
+    {
+        readonly NotifyIcon notifyIcon;
+        readonly System.Timers.Timer timer;
+        readonly string appFolder;
+        readonly string configPath;
+        readonly string noticeFolder; // 新增：notices文件夹路径
+        Dictionary<string, NoticeFile> cache = new Dictionary<string, NoticeFile>(StringComparer.OrdinalIgnoreCase);
+        readonly Random rnd;
+        bool balloonShowing = false;
+        int intervalSeconds = 3600;
+        List<string> noticeFiles = new List<string>();
+
+        public TrayAppContext()
+        {
+            appFolder = AppContext.BaseDirectory;
+            configPath = Path.Combine(appFolder, "config.ini");
+            noticeFolder = Path.Combine(appFolder, "notices"); // 新增：notices子文件夹
+            rnd = new Random();
+
+            notifyIcon = new NotifyIcon
+            {
+                Visible = true,
+                Text = "TrayNotifier",
+                Icon = SystemIcons.Application
+            };
+
+            // Context menu
+            var menu = new ContextMenuStrip();
+            var sendNow = new ToolStripMenuItem("立即发送通知");
+            sendNow.Click += (s, e) => { TryShowNotification(); };
+            var exit = new ToolStripMenuItem("退出");
+            exit.Click += (s, e) => Exit();
+            menu.Items.Add(sendNow);
+            menu.Items.Add(new ToolStripSeparator());
+            menu.Items.Add(exit);
+            notifyIcon.ContextMenuStrip = menu;
+
+            notifyIcon.BalloonTipClosed += (s, e) => { balloonShowing = false; RestoreDefaultIcon(); };
+            notifyIcon.BalloonTipClicked += (s, e) => { balloonShowing = false; RestoreDefaultIcon(); };
+            notifyIcon.MouseDoubleClick += (s, e) =>
+            {
+                // 双击也立即发送（可选）
+                TryShowNotification();
+            };
+
+            EnsureSampleFilesAndLoadConfig();
+
+            timer = new System.Timers.Timer(intervalSeconds * 1000);
+            timer.Elapsed += (s, e) => TryShowNotification();
+            timer.AutoReset = true;
+            timer.Start();
+        }
+
+        void EnsureSampleFilesAndLoadConfig()
+        {
+            // If no config, create one
+            if (!File.Exists(configPath))
+            {
+                File.WriteAllText(configPath,
+@"# interval_seconds = 发送周期（秒）
+interval_seconds=60
+# notice_files = 指定一个或多个 notice json 文件，多个用分号分隔
+notice_files=notices.json
+");
+            }
+
+            // parse config
+            var cfg = ParseIni(configPath);
+            if (cfg.TryGetValue("interval_seconds", out var ivStr) && int.TryParse(ivStr, out int iv) && iv > 0)
+                intervalSeconds = iv;
+            else
+                intervalSeconds = 3600;
+
+            noticeFiles.Clear();
+
+            if (cfg.TryGetValue("notice_files", out var nfStr) && !string.IsNullOrWhiteSpace(nfStr))
+            {
+                foreach (var part in nfStr.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    var p = part.Trim();
+                    // 始终放到notices文件夹下
+                    if (!Path.IsPathRooted(p))
+                        p = Path.Combine(noticeFolder, p);
+                    noticeFiles.Add(p);
+                }
+            }
+
+            if (noticeFiles.Count == 0)
+            {
+                // default
+                var defaultFile = Path.Combine(noticeFolder, "notices.json");
+                noticeFiles.Add(defaultFile);
+            }
+
+            // ensure notice directory & sample json exists
+            if (!Directory.Exists(noticeFolder))
+                Directory.CreateDirectory(noticeFolder);
+
+            foreach (var nf in noticeFiles)
+            {
+                var dir = Path.GetDirectoryName(nf);
+                if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
+                    Directory.CreateDirectory(dir);
+
+                if (!File.Exists(nf))
+                {
+                    // write sample notices
+                    var sample = new NoticeFile
+                    {
+                        notifications = new List<Notice>
+                        {
+                            new Notice { title = "示例通知 A", body = "这是第一条示例消息。", icon = "icons/icon.ico" },
+                            new Notice { title = "示例通知 B", body = "这是第二条示例消息，随机发送。", icon = "icons/icon.ico" }
+                        }
+                    };
+                    var json = JsonSerializer.Serialize(sample, new JsonSerializerOptions { WriteIndented = true });
+                    File.WriteAllText(nf, json);
+
+                    // create icons folder and a simple ico placeholder if not exists
+                    var iconFolder = Path.Combine(appFolder, "icons");
+                    if (!Directory.Exists(iconFolder)) Directory.CreateDirectory(iconFolder);
+                    var icoPath = Path.Combine(iconFolder, "icon.ico");
+                    if (!File.Exists(icoPath))
+                    {
+                        // write a tiny placeholder .ico from SystemIcons.Application
+                        using (var bmp = SystemIcons.Application.ToBitmap())
+                        {
+                            using (var fs = new FileStream(icoPath, FileMode.Create))
+                            {
+                                IconFromBitmap(bmp).Save(fs);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        static Icon IconFromBitmap(Bitmap bmp)
+        {
+            // Convert Bitmap to Icon via HIcon. Not perfect, but works for tray.
+            var hIcon = bmp.GetHicon();
+            var ico = Icon.FromHandle(hIcon);
+            return ico;
+        }
+
+        Dictionary<string, string> ParseIni(string path)
+        {
+            var dict = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var raw in File.ReadAllLines(path))
+            {
+                var line = raw.Trim();
+                if (line.Length == 0) continue;
+                if (line.StartsWith("#") || line.StartsWith(";")) continue;
+                var idx = line.IndexOf('=');
+                if (idx <= 0) continue;
+                var key = line.Substring(0, idx).Trim();
+                var val = line.Substring(idx + 1).Trim();
+                dict[key] = val;
+            }
+            return dict;
+        }
+
+        void TryShowNotification()
+        {
+            if (balloonShowing) return; // 保证只有一个通知显示
+            Notice selected = null;
+            string usedFile = null;
+
+            // choose a random notice file first (if multiple)
+            var availableFiles = new List<string>();
+            foreach (var f in noticeFiles)
+                if (File.Exists(f)) availableFiles.Add(f);
+            if (availableFiles.Count == 0) return;
+
+            usedFile = availableFiles[rnd.Next(availableFiles.Count)];
+
+            try
+            {
+                // load or get from cache
+                if (!cache.TryGetValue(usedFile, out var nf))
+                {
+                    var txt = File.ReadAllText(usedFile);
+                    nf = JsonSerializer.Deserialize<NoticeFile>(txt, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                    if (nf == null || nf.notifications == null || nf.notifications.Count == 0)
+                        return;
+                    cache[usedFile] = nf;
+                }
+
+                var list = cache[usedFile].notifications;
+                if (list == null || list.Count == 0) return;
+                selected = list[rnd.Next(list.Count)];
+            }
+            catch
+            {
+                // 出错就跳过
+                return;
+            }
+
+            if (selected == null) return;
+
+            // set tray icon to the notification's icon if provided
+            Icon prevIcon = notifyIcon.Icon;
+            bool changedIcon = false;
+            if (!string.IsNullOrWhiteSpace(selected.icon))
+            {
+                var iconPath = selected.icon;
+                if (!Path.IsPathRooted(iconPath))
+                    iconPath = Path.Combine(appFolder, iconPath);
+                if (File.Exists(iconPath))
+                {
+                    try
+                    {
+                        if (Path.GetExtension(iconPath).Equals(".ico", StringComparison.OrdinalIgnoreCase))
+                        {
+                            var ic = new Icon(iconPath);
+                            notifyIcon.Icon = ic;
+                            changedIcon = true;
+                        }
+                        else
+                        {
+                            using (var bmp = new Bitmap(iconPath))
+                            {
+                                var ic = IconFromBitmap(bmp);
+                                notifyIcon.Icon = ic;
+                                changedIcon = true;
+                            }
+                        }
+                    }
+                    catch { /* ignore icon loading errors */ }
+                }
+            }
+
+            // show balloon tip
+            balloonShowing = true;
+            int timeoutMs = 10000;
+            if (selected.timeout_seconds.HasValue)
+                timeoutMs = Math.Max(3000, selected.timeout_seconds.Value * 1000);
+            // ShowBalloonTip expects timeout in milliseconds but historically used as milliseconds in newer frameworks.
+            notifyIcon.ShowBalloonTip(timeoutMs, selected.title ?? "通知", selected.body ?? "", ToolTipIcon.None);
+
+            // Restore icon when balloon closed is handled by event handlers
+        }
+
+        void RestoreDefaultIcon()
+        {
+            // restore default icon (Application icon)
+            try
+            {
+                notifyIcon.Icon = SystemIcons.Application;
+            }
+            catch { }
+        }
+
+        void Exit()
+        {
+            timer?.Stop();
+            notifyIcon.Visible = false;
+            notifyIcon.Dispose();
+            Application.Exit();
+        }
+    }
+
+    // JSON model
+    class NoticeFile
+    {
+        public List<Notice> notifications { get; set; }
+    }
+
+    class Notice
+    {
+        public string title { get; set; }
+        public string body { get; set; }
+        // path relative to app folder or absolute
+        public string icon { get; set; }
+        // optional per-notification timeout in seconds
+        public int? timeout_seconds { get; set; }
+    }
+}

@@ -1,0 +1,16 @@
+{
+  "notifications": [
+    {
+      "title": "\u793A\u4F8B\u901A\u77E5 A",
+      "body": "\u8FD9\u662F\u7B2C\u4E00\u6761\u793A\u4F8B\u6D88\u606F\u3002",
+      "icon": "icons/sample_icon.ico",
+      "timeout_seconds": null
+    },
+    {
+      "title": "\u793A\u4F8B\u901A\u77E5 B",
+      "body": "\u8FD9\u662F\u7B2C\u4E8C\u6761\u793A\u4F8B\u6D88\u606F\uFF0C\u968F\u673A\u53D1\u9001\u3002",
+      "icon": "icons/sample_icon.ico",
+      "timeout_seconds": null
+    }
+  ]
+}
