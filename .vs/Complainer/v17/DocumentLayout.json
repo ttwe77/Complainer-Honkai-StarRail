@@ -7,12 +7,12 @@
       "RelativeMoniker": "D:0:0:{EFBF39AB-D343-485B-BB1E-CE536C768B2A}|Complainer\\Complainer.csproj|solutionrelative:complainer\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EFBF39AB-D343-485B-BB1E-CE536C768B2A}|Complainer\\Complainer.csproj|h:\\0project\\complainer\\complainer\\complainer.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
-      "RelativeMoniker": "D:0:0:{EFBF39AB-D343-485B-BB1E-CE536C768B2A}|Complainer\\Complainer.csproj|solutionrelative:complainer\\complainer.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{EFBF39AB-D343-485B-BB1E-CE536C768B2A}|Complainer\\Complainer.csproj|H:\\0Project\\Complainer\\complainer\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{EFBF39AB-D343-485B-BB1E-CE536C768B2A}|Complainer\\Complainer.csproj|solutionrelative:complainer\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EFBF39AB-D343-485B-BB1E-CE536C768B2A}|Complainer\\Complainer.csproj|h:\\0project\\complainer\\complainer\\complainer.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{EFBF39AB-D343-485B-BB1E-CE536C768B2A}|Complainer\\Complainer.csproj|solutionrelative:complainer\\complainer.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,7 +30,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Complainer",
               "DocumentMoniker": "H:\\0Project\\Complainer\\Complainer\\Complainer.csproj",
               "RelativeDocumentMoniker": "Complainer\\Complainer.csproj",
@@ -47,21 +47,26 @@
               "RelativeDocumentMoniker": "Complainer\\Program.cs",
               "ToolTip": "H:\\0Project\\Complainer\\Complainer\\Program.cs",
               "RelativeToolTip": "Complainer\\Program.cs",
-              "ViewState": "AgIAAJEAAACAFP7HY9suwJoAAABGAAAAAAAAAA==",
+              "ViewState": "AgIAAE8BAAAAAAAAAAAAAHIBAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-02T02:47:25.158Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Form1.cs [Design]",
+              "DocumentIndex": 1,
+              "Title": "Form1.cs [\u8BBE\u8BA1]",
               "DocumentMoniker": "H:\\0Project\\Complainer\\Complainer\\Form1.cs",
               "RelativeDocumentMoniker": "Complainer\\Form1.cs",
-              "ToolTip": "H:\\0Project\\Complainer\\Complainer\\Form1.cs [Design]",
-              "RelativeToolTip": "Complainer\\Form1.cs [Design]",
+              "ToolTip": "H:\\0Project\\Complainer\\Complainer\\Form1.cs [\u8BBE\u8BA1]",
+              "RelativeToolTip": "Complainer\\Form1.cs [\u8BBE\u8BA1]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-02T02:46:57.484Z"
+              "WhenOpened": "2025-11-02T02:46:57.484Z",
+              "EditorCaption": " [\u8BBE\u8BA1]"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
             }
           ]
         }

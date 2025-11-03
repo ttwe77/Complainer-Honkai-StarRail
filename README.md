@@ -1,4 +1,5 @@
 # 说怪话 · 奇美拉桌面通知器
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
 > “生命花园登记在案的小奇美拉，比起认真工作，更热衷于对身边的事发表自己的意见。”  
 > ——致敬《崩坏：星穹铁道》奇美拉“说怪话”

@@ -1,6 +1,13 @@
-// Program.cs
+/*
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Text.Json;
@@ -44,7 +51,7 @@ namespace TrayNotifier
             notifyIcon = new NotifyIcon
             {
                 Visible = true,
-                Text = "TrayNotifier",
+                Text = "说怪话Complainer",
                 // 使用项目目录下的 icon.ico（存在时），否则回退到 SystemIcons.Application
                 Icon = File.Exists(appIconPath) ? new Icon(appIconPath) : SystemIcons.Application
             };
@@ -53,8 +60,11 @@ namespace TrayNotifier
             var menu = new ContextMenuStrip();
             var sendNow = new ToolStripMenuItem("立即发送通知");
             sendNow.Click += (s, e) => { TryShowNotification(); };
+            var about = new ToolStripMenuItem("关于");
+            about.Click += (s, e) => { ShowAboutDialog(); };
             var exit = new ToolStripMenuItem("退出");
             exit.Click += (s, e) => Exit();
+            menu.Items.Add(about);
             menu.Items.Add(sendNow);
             menu.Items.Add(new ToolStripSeparator());
             menu.Items.Add(exit);
@@ -74,6 +84,16 @@ namespace TrayNotifier
             timer.Elapsed += (s, e) => TryShowNotification();
             timer.AutoReset = true;
             timer.Start();
+        }
+
+        void ShowAboutDialog()
+        {
+            using (var f = new AboutForm())
+            {
+                // 将托盘图标传过去以便 About 窗口使用（可选）
+                try { f.Icon = notifyIcon.Icon; } catch { }
+                f.ShowDialog();
+            }
         }
 
         void EnsureSampleFilesAndLoadConfig()
@@ -281,5 +301,87 @@ notice_files=notices.json
         public string icon { get; set; }
         // optional per-notification timeout in seconds
         public int? timeout_seconds { get; set; }
+    }
+
+    // AboutForm moved outside of TrayAppContext
+    public class AboutForm : Form
+    {
+        public AboutForm()
+        {
+            Text = "关于";
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            StartPosition = FormStartPosition.CenterParent;
+            ClientSize = new Size(800, 400);
+
+            // 稍微好看一点的字体和布局
+            var lblTitle = new Label
+            {
+                Text = "说怪话Complainer",
+                Font = new Font("Segoe UI", 12F, FontStyle.Bold),
+                AutoSize = true,
+                Location = new Point(14, 14)
+            };
+
+            var lblAuthor = new Label
+            {
+                Text = "作者: ttwe77",
+                AutoSize = true,
+                Location = new Point(14, 50)
+            };
+
+            var lblLicense = new Label
+            {
+                Text = "开源协议: GNU AGPL v3",
+                AutoSize = true,
+                Location = new Point(14, 78)
+            };
+
+            var link = new LinkLabel
+            {
+                Text = "查看协议全文（GNU AGPL v3）",
+                AutoSize = true,
+                Location = new Point(14, 104)
+            };
+            link.Links.Add(0, link.Text.Length, "https://www.gnu.org/licenses/agpl-3.0.en.html");
+            link.LinkClicked += (s, e) =>
+            {
+                var url = e.Link.LinkData as string;
+                if (!string.IsNullOrEmpty(url))
+                {
+                    try
+                    {
+                        Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+                    }
+                    catch
+                    {
+                        // 忽略打开失败
+                    }
+                }
+            };
+
+            var txt = new TextBox
+            {
+                Multiline = true,
+                ReadOnly = true,
+                BorderStyle = BorderStyle.None,
+                Location = new Point(14, 136),
+                Size = new Size(ClientSize.Width - 28, 40),
+                Text = "本程序由作者 ttwe77 发布，遵循 GNU AGPL v3 开源协议。"
+            };
+
+            var btnOk = new Button
+            {
+                Text = "确定",
+                DialogResult = DialogResult.OK,
+                Size = new Size(120, 40),
+                Anchor = AnchorStyles.Bottom | AnchorStyles.Right
+            };
+            btnOk.Location = new Point(ClientSize.Width - btnOk.Width - 14, ClientSize.Height - btnOk.Height - 10);
+
+            Controls.AddRange(new Control[] { lblTitle, lblAuthor, lblLicense, link, txt, btnOk });
+            AcceptButton = btnOk;
+        }
     }
 }
