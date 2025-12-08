@@ -204,6 +204,7 @@ notice_files=notices.json
                     var json = JsonSerializer.Serialize(sample, new JsonSerializerOptions { WriteIndented = true });
                     File.WriteAllText(nf, json);
 
+                    /*
                     // create icons folder and a simple ico placeholder if not exists
                     var iconFolder = Path.Combine(appFolder, "icons");
                     if (!Directory.Exists(iconFolder)) Directory.CreateDirectory(iconFolder);
@@ -218,7 +219,8 @@ notice_files=notices.json
                                 IconFromBitmap(bmp).Save(fs);
                             }
                         }
-                    }
+                    }//
+                    */
                 }
             }
         }
