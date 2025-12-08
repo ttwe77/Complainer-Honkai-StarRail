@@ -18,11 +18,43 @@ namespace TrayNotifier
 {
     static class Program
     {
+        // 定义唯一标识（建议使用 GUID 确保唯一性）
+        private const string MutexName = "Global\\{8F6F0AC4-B9A1-45FD-A8CF-72F04E6BDE8F}";
         [STAThread]
         static void Main()
         {
-            ApplicationConfiguration.Initialize();
-            Application.Run(new TrayAppContext());
+            // 创建互斥锁并检测是否已存在实例
+            using (Mutex mutex = new Mutex(true, MutexName, out bool isNewInstance))
+            {
+                if (isNewInstance)
+                {
+                    // 第一个实例：正常启动程序
+                    ApplicationConfiguration.Initialize();
+                    Application.Run(new TrayAppContext());
+                }
+                else
+                {
+                    // 重复实例：提示并选择
+                    DialogResult result = MessageBox.Show(
+                        "软件已经在运行了，是否继续启动（将增加额外的内存占用）",
+                        "提示",
+                        MessageBoxButtons.YesNo,  // 「是/否」选项
+                        MessageBoxIcon.Question   // 问号图标，更贴合选择场景
+                    );
+                    // 根据用户选择执行：Yes=启动新实例，No=退出
+                    if (result == DialogResult.Yes)
+                    {
+                        ApplicationConfiguration.Initialize();
+                        Application.Run(new TrayAppContext());
+                    }
+                    else
+                    {
+                        Application.Exit();
+                    }
+                    //MessageBox.Show("已有实例正在运行！是否继续启动", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                }
+            }
+            
         }
     }
 
